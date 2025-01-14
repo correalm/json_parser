@@ -57,3 +57,57 @@ func TestLexString(t *testing.T) {
     }
 	})
 }
+
+func TestLexInteger(t *testing.T) {
+  t.Run("returns the correct value", func(t *testing.T) {
+    result, index := parser.LexInteger("250")
+
+    if result != 250 {
+      t.Fatalf("Expected 250, got %d", result)
+    }
+
+    if index != 2 {
+      t.Fatalf("Expected index 2, got %d", index)
+    }
+  })
+
+  t.Run("returns the correct value for negative values", func(t *testing.T) {
+    result, index := parser.LexInteger("-45")
+
+    if result != -45 {
+      t.Fatalf("Expected -45, got %d", result)
+    }
+
+    if index != 2 {
+      t.Fatalf("Expected index 2, got %d", index)
+    }
+  })
+}
+
+func TestLexFloat(t *testing.T) {
+  t.Run("returns the correct value", func(t *testing.T) {
+    result, index := parser.LexFloat("22.2")
+    expected := 22.2
+
+    if result != expected {
+      t.Fatalf("Expected %f, got %f", expected, result)
+    }
+
+    if index != 3 {
+      t.Fatalf("Expected index 3, got %d", index)
+    }
+  })
+
+  t.Run("returns the correct value for negative values", func(t *testing.T) {
+    result, index := parser.LexFloat("-789.08")
+    expected := -789.08
+
+    if result != expected {
+      t.Fatalf("Expected %f, got %f", expected, result)
+    }
+
+    if index != 6 {
+      t.Fatalf("Expected index 6, got %d", index)
+    }
+  })
+}

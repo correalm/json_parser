@@ -1,6 +1,9 @@
 package parser
 
-import "errors"
+import (
+	"errors"
+	"strconv"
+)
 
 const (
   JSON_QUOTE = '"'
@@ -40,8 +43,39 @@ func LexBool(raw string) string {
   return ""
 }
 
-func LexNumber(raw string) string {
-  return ""
+func LexInteger(raw string) (int64, int) {
+  result := []byte{}
+  index := 0
+
+  for ; index < len(raw); index++ {
+    result = append(result, raw[index])
+  }
+
+  int_value, err := strconv.ParseInt(string(result), 0, 64)
+
+  if err != nil {
+    return 0, 0
+  }
+
+  return int_value, index - 1
+}
+
+// TODO: validate a better way to treat errors
+func LexFloat(raw string) (float64, int) {
+  result := []byte{}
+  index := 0
+
+  for ; index < len(raw); index++ {
+    result = append(result, raw[index])
+  }
+
+  float_value, err := strconv.ParseFloat(string(result), 64)
+
+  if err != nil {
+    return 0, 0
+  }
+
+  return float_value, index - 1
 }
 
 func LexNull(raw string) string {
