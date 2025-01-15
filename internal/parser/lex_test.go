@@ -7,10 +7,10 @@ import (
 	"strings"
 )
 
-func TestLex(t *testing.T) {
+func TestLexer(t *testing.T) {
   t.Run("returns the correct tokens", func(t *testing.T) {
-    result := parser.Lex("\"{\"foo\":\"bar\",\"bar\":\"foo\"}\"")
-    expected := []string{"{", "foo", ":", "bar", ",", "bar", ":", "foo", "}"}
+    result := parser.Lex("\"{\"foo\":\"bar\",\"bar\":\"foo\", \"number\": 4}\"")
+    expected := []string{"{", "foo", ":", "bar", ",", "bar", ":", "foo", "number", "4", "}"}
 
     if !reflect.DeepEqual(result, expected) {
       t.Fatalf("Expect %s, got %s", expected, result)
@@ -60,7 +60,7 @@ func TestLexString(t *testing.T) {
 
 func TestLexInteger(t *testing.T) {
   t.Run("returns the correct value", func(t *testing.T) {
-    result, index := parser.LexInteger("250")
+    result, index := parser.LexInteger("250,")
 
     if result != 250 {
       t.Fatalf("Expected 250, got %d", result)
@@ -72,7 +72,7 @@ func TestLexInteger(t *testing.T) {
   })
 
   t.Run("returns the correct value for negative values", func(t *testing.T) {
-    result, index := parser.LexInteger("-45")
+    result, index := parser.LexInteger("-45 ")
 
     if result != -45 {
       t.Fatalf("Expected -45, got %d", result)
@@ -86,7 +86,7 @@ func TestLexInteger(t *testing.T) {
 
 func TestLexFloat(t *testing.T) {
   t.Run("returns the correct value", func(t *testing.T) {
-    result, index := parser.LexFloat("22.2")
+    result, index := parser.LexFloat("22.2 ")
     expected := 22.2
 
     if result != expected {
@@ -99,7 +99,7 @@ func TestLexFloat(t *testing.T) {
   })
 
   t.Run("returns the correct value for negative values", func(t *testing.T) {
-    result, index := parser.LexFloat("-789.08")
+    result, index := parser.LexFloat("-789.08,")
     expected := -789.08
 
     if result != expected {

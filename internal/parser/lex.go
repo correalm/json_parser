@@ -2,6 +2,7 @@ package parser
 
 import (
 	"errors"
+	"regexp"
 	"strconv"
 )
 
@@ -13,6 +14,10 @@ func Lex(raw string) []string {
   raw_len := len(raw)
 
   result := make([]string, raw_len)
+
+  // percorrer cada um dos caracteres do input
+  // identificar o que eles representam
+  // adicionar ao resultado a unidade de valor
   
   return result
 }
@@ -43,12 +48,26 @@ func LexBool(raw string) string {
   return ""
 }
 
+func isValidNumberChar(c byte) bool {
+  matched, err := regexp.Match(`[\d\.\-\+]`, []byte{c})
+
+  if err != nil {
+    return false
+  }
+
+  return matched
+}
+
 func LexInteger(raw string) (int64, int) {
   result := []byte{}
   index := 0
 
   for ; index < len(raw); index++ {
-    result = append(result, raw[index])
+    current := raw[index]
+
+    if !isValidNumberChar(current) { break }
+
+    result = append(result, current)
   }
 
   int_value, err := strconv.ParseInt(string(result), 0, 64)
@@ -66,7 +85,11 @@ func LexFloat(raw string) (float64, int) {
   index := 0
 
   for ; index < len(raw); index++ {
-    result = append(result, raw[index])
+    current := raw[index]
+
+    if !isValidNumberChar(current) { break }
+
+    result = append(result, current)
   }
 
   float_value, err := strconv.ParseFloat(string(result), 64)
