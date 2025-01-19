@@ -111,3 +111,35 @@ func TestLexFloat(t *testing.T) {
     }
   })
 }
+
+func TestIsDelim(t *testing.T) {
+  t.Run("returns the correct value", func(t *testing.T) {
+    if !lexer.IsDelim(':') {
+      t.Fatalf("Expected \":\" returns true, got false")
+    }
+
+    if !lexer.IsDelim(',') {
+      t.Fatalf("Expected \":\" returns true, got false")
+    }
+
+    if !lexer.IsDelim('{') {
+      t.Fatalf("Expected \"{\" returns true, got false")
+    }
+
+    if !lexer.IsDelim('}') {
+      t.Fatalf("Expected \"}\" returns true, got false")
+    }
+
+    if !lexer.IsDelim('[') {
+      t.Fatalf("Expected \"[\" returns true, got false")
+    }
+
+    if !lexer.IsDelim(']') {
+      t.Fatalf("Expected \"]\" returns true, got false")
+    }
+
+    if !lexer.IsDelim('"') {
+      t.Fatalf("Expected \"\"\" returns true, got false")
+    }
+  })
+}

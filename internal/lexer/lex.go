@@ -7,7 +7,14 @@ import (
 )
 
 const (
-  JSON_QUOTE = '"'
+  QUOTE = '"'
+  LEFT_BRACE = '{'
+  RIGTH_BRACE = '}'
+  LEFT_BRACKET = '['
+  RIGTH_BRACKET = ']'
+  COLON = ':'
+  COMMA = ','
+  SPACE = ' '
 )
 
 func Lex(raw string) []string {
@@ -20,6 +27,20 @@ func Lex(raw string) []string {
   // adicionar ao resultado a unidade de valor
   
   return result
+
+func IsQuote(token byte) bool {
+  return token == QUOTE
+}
+
+func IsDelim(token byte) bool {
+  return (
+    token == COLON ||
+    token == COMMA ||
+    token == LEFT_BRACE ||
+    token == RIGTH_BRACE ||
+    token == LEFT_BRACKET ||
+    token == RIGTH_BRACKET ||
+    IsQuote(token)) && token != SPACE
 }
 
 func LexString(raw string) (string, int, error) {
