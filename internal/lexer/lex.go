@@ -47,14 +47,11 @@ func LexString(raw string) (string, int, error) {
   result := []byte{}
   index := 0
 
-  if raw[0] == JSON_QUOTE {
-    for i := 0; i < len(raw); i++ {
-      result = append(result, raw[i])
-      index = i
+  for index := 0; index < len(raw); index++ {
+    result = append(result, raw[index])
 
-      if raw[i] == JSON_QUOTE && i > 0 {
-        break
-      }
+    if IsQuote(raw[index]) {
+      break
     }
   }
 
